@@ -1,5 +1,6 @@
 public class Pokemon {
 	private String name;
+	private boolean fainted;
 	//basic stats
 	private int health;
 	private int maxHealth;
@@ -23,6 +24,7 @@ public class Pokemon {
 	//use in constructors so that you don't need to retype defaults
 	private void defaultStats(){
 		name = "default";
+		fainted = false;
 		health = 1;
 		maxHealth = health;
 		speed = 1;
@@ -57,6 +59,7 @@ public class Pokemon {
 	}
 
 	//basic getters
+	public String getName(){return name;}
 	public int getHealth(){return health;}
 	public int getMaxHealth(){return maxHealth;}
 	public int getSpeed(){return speed;}	
@@ -66,6 +69,15 @@ public class Pokemon {
 	public int getSpecialDefense(){return specialDefense;}
 	public String getMove(int index){return moves[index];}
 
+	//check to see if fainted
+	//if it has, return true
+	public boolean checkHealth(){
+		if (health <= 0){
+			fainted = true;
+			return true;
+		}
+		return false;
+	}
 
 	public void print(){
 		System.out.println("-----------------");
@@ -106,6 +118,14 @@ public class Pokemon {
 			target.getSpecialAttack() + target.getDefense() + target.getSpecialDefense()
 		);
 		if (pointSum <= maxPoints){
+			return true;
+		}
+		return false;
+	}
+
+	//validate a pokemon in its entirety
+	public static boolean validate(Pokemon target, int maxPoints){
+		if(Pokemon.validateMoves(target) && Pokemon.validateStats(target, maxPoints)){
 			return true;
 		}
 		return false;
